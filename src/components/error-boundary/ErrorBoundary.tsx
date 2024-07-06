@@ -1,4 +1,5 @@
 import { Component, ErrorInfo, ReactNode } from 'react';
+import styles from './errorBoundary.module.css';
 
 interface Props {
   children: ReactNode;
@@ -24,27 +25,23 @@ class ErrorBoundary extends Component<Props, State> {
     this.logErrorToServices(error.toString(), info.componentStack);
   }
 
+  refreshPage = () => {
+    history.go(0);
+  };
+
   render() {
     if (this.state.errorMessage) {
-      return <p>{this.state.errorMessage}</p>;
+      return (
+        <div className={styles.errorContainer}>
+          <p>{this.state.errorMessage}</p>
+          <button className="button" onClick={this.refreshPage}>
+            Refresh Page
+          </button>
+        </div>
+      );
     }
     return this.props.children;
   }
-  /*   static getDerivedStateFromError(_: Error): State {
-    return { hasError: true };
-  }
-
-  componentDidCatch(error: Error, errorInfo: ErrorInfo) {
-    console.error('ErrorBoundary caught an error', error, errorInfo);
-  }
-
-  render() {
-    if (this.state.hasError) {
-      return <h1>Something went wrong.</h1>;
-    }
-
-    return this.props.children;
-  } */
 }
 
 export default ErrorBoundary;
