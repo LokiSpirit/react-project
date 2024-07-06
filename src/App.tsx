@@ -12,6 +12,7 @@ interface State {
   searchTerm: string;
   results: Result[];
   error: boolean;
+  loading: boolean;
 }
 
 class App extends Component {
@@ -19,6 +20,7 @@ class App extends Component {
     searchTerm: '',
     results: [],
     error: false,
+    loading: false,
   };
 
   private endpoints: string[] = ['films', 'people', 'planets', 'species', 'starships', 'vehicles'];
@@ -33,7 +35,7 @@ class App extends Component {
     const url = 'https://swapi.dev/api/';
     const query = term ? `?search=${term}&page=1` : '';
     const values: Result[] = [];
-
+    this.setState({ loading: true });
     Promise.allSettled(
       this.endpoints.map((endpoint) => fetch(url + `${endpoint}/${query}`).then((response) => response.json())),
     )
@@ -44,6 +46,7 @@ class App extends Component {
           }
         });
         this.setState({ results: values });
+        this.setState({ loading: false });
       })
       .catch((error) => {
         console.error(error);
@@ -67,6 +70,7 @@ class App extends Component {
               <SearchComponent searchTerm={this.state.searchTerm} onSearch={this.handleSearch} />
             </div>
             <div style={{ display: 'flex', flex: 1, flexDirection: 'column' }}>
+              {this.state.loading && <p>Loading...</p>}
               {this.state.error ? (
                 <div>Something went wrong. Please try again later.</div>
               ) : (
