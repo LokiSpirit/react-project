@@ -2,6 +2,7 @@ import { Component } from 'react';
 import SearchComponent from './components/SearchComponent.tsx';
 import ResultsComponent from './components/ResultsComponent';
 import ErrorBoundary from './components/ErrorBoundary.tsx';
+import Button from './components/button/Button.tsx';
 
 interface Result {
   [key: string]: string | number | string[];
@@ -56,15 +57,11 @@ class App extends Component {
     this.fetchData(searchTerm);
   };
 
-  throwError = () => {
-    throw new Error('Test error');
-  };
-
   render() {
     return (
       <ErrorBoundary>
         <div>
-          <button onClick={this.throwError}>Throw Error</button>
+          <Button>Throw Error</Button>
           <div style={{ height: '100vh', display: 'flex', flexDirection: 'column' }}>
             <div style={{ display: 'flex' }}>
               <SearchComponent searchTerm={this.state.searchTerm} onSearch={this.handleSearch} />
