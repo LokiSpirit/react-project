@@ -5,7 +5,7 @@
   height: 100vh;
   margin: 0 auto;
   background: blue;
-  background-image: url('./images/star-wars-characters.jpg');
+  background-image: url('/images/star-wars-characters.jpg');
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center;
