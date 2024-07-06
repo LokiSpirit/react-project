@@ -5,11 +5,11 @@ type ButtonProps = {
   click?: (event?: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
 };
 
-interface State {
+type State = {
   error: boolean;
-}
+};
 
-class Button extends Component<ButtonProps, State> {
+class ThrowButton extends Component<ButtonProps, State> {
   constructor(props: ButtonProps) {
     super(props);
     this.state = {
@@ -27,7 +27,7 @@ class Button extends Component<ButtonProps, State> {
     }
     return (
       <div>
-        <button type="button" onClick={this.handleError}>
+        <button className="button" type="button" onClick={this.handleError}>
           {this.props.children}
         </button>
       </div>
@@ -35,4 +35,4 @@ class Button extends Component<ButtonProps, State> {
   }
 }
 
-export default Button;
+export default ThrowButton;

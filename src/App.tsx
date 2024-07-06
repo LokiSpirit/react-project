@@ -1,8 +1,10 @@
 import { Component } from 'react';
-import SearchComponent from './components/SearchComponent.tsx';
-import ResultsComponent from './components/ResultsComponent';
-import ErrorBoundary from './components/ErrorBoundary.tsx';
-import Button from './components/button/Button.tsx';
+import SearchComponent from './components/search-component/SearchComponent.tsx';
+import ResultsComponent from './components/result-component/ResultsComponent.tsx';
+import ErrorBoundary from './components/error-boundary/ErrorBoundary.tsx';
+import ThrowButton from './components/throw-button/ThrowButton.tsx';
+import Main from './components/main/Main.tsx';
+import styles from './App.module.css';
 
 interface Result {
   [key: string]: string | number | string[];
@@ -48,8 +50,7 @@ class App extends Component {
         this.setState({ results: values });
         this.setState({ loading: false });
       })
-      .catch((error) => {
-        console.error(error);
+      .catch(() => {
         this.setState({ error: true });
       });
   };
@@ -63,13 +64,13 @@ class App extends Component {
   render() {
     return (
       <ErrorBoundary>
-        <div>
-          <Button>Throw Error</Button>
-          <div style={{ height: '100vh', display: 'flex', flexDirection: 'column' }}>
-            <div style={{ display: 'flex' }}>
-              <SearchComponent searchTerm={this.state.searchTerm} onSearch={this.handleSearch} />
-            </div>
-            <div style={{ display: 'flex', flex: 1, flexDirection: 'column' }}>
+        <div className={styles.container}>
+          <div className={styles.topWrapper}>
+            <SearchComponent searchTerm={this.state.searchTerm} onSearch={this.handleSearch} />
+            <ThrowButton>Throw Error</ThrowButton>
+          </div>
+          <Main>
+            <div className={styles.bottomWrapper}>
               {this.state.loading && <p>Loading...</p>}
               {this.state.error ? (
                 <div>Something went wrong. Please try again later.</div>
@@ -77,7 +78,7 @@ class App extends Component {
                 <ResultsComponent results={this.state.results} />
               )}
             </div>
-          </div>
+          </Main>
         </div>
       </ErrorBoundary>
     );
