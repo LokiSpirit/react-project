@@ -1,7 +1,7 @@
 import { Component, ReactNode } from 'react';
 
 type ButtonProps = {
-  children: ReactNode;
+  children?: ReactNode;
   click?: (event?: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
 };
 
