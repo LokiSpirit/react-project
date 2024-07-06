@@ -1,0 +1,5 @@
+.searchSection {
+  display: flex;
+  justify-content: start;
+  align-items: baseline;
+}

@@ -11,19 +11,11 @@ module.exports = {
     'plugin:prettier/recommended',
   ],
   ignorePatterns: ['dist', '.eslintrc.cjs'],
-  plugins: [
-    'react-refresh',
-    'react',
-    '@typescript-eslint',
-    'react-hooks',
-    'react-compiler',
-    'prettier',
-  ],
+  plugins: ['react-refresh', 'react', '@typescript-eslint', 'react-hooks', 'react-compiler', 'prettier'],
   rules: {
-    'react-refresh/only-export-components': [
-      'warn',
-      { allowConstantExport: true },
-    ],
+    'react/prop-types': 'off',
+    '@typescript-eslint/explicit-module-boundary-types': 'off',
+    'react-refresh/only-export-components': ['warn', { allowConstantExport: true }],
     '@typescript-eslint/no-explicit-any': 'error',
     'react/react-in-jsx-scope': 'off',
     'react-hooks/rules-of-hooks': 'off',
@@ -31,14 +23,36 @@ module.exports = {
     'no-restricted-imports': [
       'error',
       {
-        paths: ['react'],
-        patterns: ['react/*'],
-        message: 'Hooks are not allowed',
+        paths: [
+          {
+            name: 'react',
+            importNames: [
+              'useState',
+              'useEffect',
+              'useContext',
+              'useReducer',
+              'useCallback',
+              'useMemo',
+              'useRef',
+              'useLayoutEffect',
+              'useDebugValue',
+              'useImperativeHandle',
+              'useTransition',
+              'useDeferredValue',
+              'useId',
+            ],
+            message: 'Hooks are not allowed',
+          },
+        ],
       },
     ],
-    'react-compiler/no-direct-dom-manipulations': 'error',
-    'react-compiler/no-hooks': 'error',
-    'react-compiler/no-ts-ignore': 'error',
+    '@typescript-eslint/ban-ts-comment': [
+      'error',
+      {
+        'ts-ignore': 'allow-with-description',
+        minimumDescriptionLength: 10,
+      },
+    ],
     'prettier/prettier': 'error',
   },
   settings: {
@@ -46,4 +60,4 @@ module.exports = {
       version: 'detect',
     },
   },
-}
+};
