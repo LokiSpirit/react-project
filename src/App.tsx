@@ -1,4 +1,4 @@
-import { Component } from 'react';
+import { Component, ReactNode } from 'react';
 import SearchComponent from './components/search-component/SearchComponent.tsx';
 import ResultsComponent from './components/result-component/ResultsComponent.tsx';
 import ErrorBoundary from './components/error-boundary/ErrorBoundary.tsx';
@@ -10,26 +10,28 @@ interface Result {
   [key: string]: string | number | string[];
 }
 
-interface State {
+type State = {
   searchTerm: string;
   results: Result[];
   error: boolean;
   loading: boolean;
 }
 
-class App extends Component {
+const storedTerm = localStorage.getItem('searchTerm');
+const term = storedTerm ? JSON.parse(storedTerm) : '';
+
+class App extends Component<State> {
   state: State = {
-    searchTerm: '',
+    searchTerm: typeof term === 'string' ? term : '',
     results: [],
     error: false,
     loading: false,
-  };
+  }
 
   private endpoints: string[] = ['films', 'people', 'planets', 'species', 'starships', 'vehicles'];
 
-  componentDidMount() {
-    const searchTerm = localStorage.getItem('searchTerm') || '';
-    this.setState({ searchTerm: searchTerm });
+  componentDidUpdate() {
+    localStorage.setItem("searchTerm", JSON.stringify(this.state.searchTerm))
   }
 
   fetchData = (searchTerm: string) => {
@@ -57,7 +59,6 @@ class App extends Component {
 
   handleSearch = (searchTerm: string) => {
     this.setState({ searchTerm: searchTerm });
-    localStorage.setItem('searchTerm', searchTerm);
     this.fetchData(searchTerm);
   };
 
