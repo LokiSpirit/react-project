@@ -1,4 +1,4 @@
-import { Component, ChangeEvent, MouseEvent, FormEvent } from 'react';
+import { Component, ChangeEvent, FormEvent } from 'react';
 import styles from './searchComponent.module.css';
 
 type Props = {
