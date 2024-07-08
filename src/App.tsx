@@ -35,6 +35,10 @@ class App extends Component {
     localStorage.setItem('searchTerm', JSON.stringify({ term }));
   }
 
+  componentDidMount() {
+    this.fetchData(this.state.searchTerm);
+  }
+
   fetchData = (searchTerm: string) => {
     const term = searchTerm.trim();
     const url = 'https://swapi.dev/api/';
