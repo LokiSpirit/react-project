@@ -1,4 +1,4 @@
-import { Component, ReactNode } from 'react';
+import { Component } from 'react';
 import SearchComponent from './components/search-component/SearchComponent.tsx';
 import ResultsComponent from './components/result-component/ResultsComponent.tsx';
 import ErrorBoundary from './components/error-boundary/ErrorBoundary.tsx';
@@ -6,32 +6,32 @@ import ThrowButton from './components/throw-button/ThrowButton.tsx';
 import Main from './components/main/Main.tsx';
 import styles from './App.module.css';
 
-interface Result {
+type Result = {
   [key: string]: string | number | string[];
-}
+};
 
 type State = {
   searchTerm: string;
   results: Result[];
   error: boolean;
   loading: boolean;
-}
+};
 
 const storedTerm = localStorage.getItem('searchTerm');
 const term = storedTerm ? JSON.parse(storedTerm) : '';
 
-class App extends Component<State> {
+class App extends Component {
   state: State = {
     searchTerm: typeof term === 'string' ? term : '',
     results: [],
     error: false,
     loading: false,
-  }
+  };
 
   private endpoints: string[] = ['films', 'people', 'planets', 'species', 'starships', 'vehicles'];
 
   componentDidUpdate() {
-    localStorage.setItem("searchTerm", JSON.stringify(this.state.searchTerm))
+    localStorage.setItem('searchTerm', JSON.stringify(this.state.searchTerm));
   }
 
   fetchData = (searchTerm: string) => {
