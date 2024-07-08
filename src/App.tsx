@@ -18,7 +18,7 @@ type State = {
 };
 
 const storedTerm = localStorage.getItem('searchTerm');
-const term = storedTerm ? JSON.parse(storedTerm) : '';
+const term = storedTerm ? JSON.parse(storedTerm)['term'] : '';
 
 class App extends Component {
   state: State = {
@@ -31,7 +31,8 @@ class App extends Component {
   private endpoints: string[] = ['films', 'people', 'planets', 'species', 'starships', 'vehicles'];
 
   componentDidUpdate() {
-    localStorage.setItem('searchTerm', JSON.stringify(this.state.searchTerm));
+    const term = this.state.searchTerm;
+    localStorage.setItem('searchTerm', JSON.stringify({ term }));
   }
 
   fetchData = (searchTerm: string) => {
