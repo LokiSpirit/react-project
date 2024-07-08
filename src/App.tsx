@@ -30,9 +30,11 @@ class App extends Component {
 
   private endpoints: string[] = ['films', 'people', 'planets', 'species', 'starships', 'vehicles'];
 
-  componentDidUpdate() {
-    const term = this.state.searchTerm;
-    localStorage.setItem('searchTerm', JSON.stringify({ term }));
+  componentDidUpdate(_prevProps: unknown, prevState: State) {
+    if (prevState.searchTerm !== this.state.searchTerm) {
+      const term = this.state.searchTerm;
+      localStorage.setItem('searchTerm', JSON.stringify({ term }));
+    }
   }
 
   componentDidMount() {
@@ -63,8 +65,10 @@ class App extends Component {
   };
 
   handleSearch = (searchTerm: string) => {
-    this.setState({ searchTerm: searchTerm });
-    this.fetchData(searchTerm);
+    if (searchTerm !== this.state.searchTerm) {
+      this.setState({ searchTerm: searchTerm });
+      this.fetchData(searchTerm);
+    }
   };
 
   render() {
