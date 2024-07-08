@@ -84,8 +84,20 @@ class App extends Component {
               {this.state.loading && <p>Loading...</p>}
               {this.state.error ? (
                 <div>Something went wrong. Please try again later.</div>
-              ) : (
+              ) : this.state.results.length > 0 ? (
                 <ResultsComponent results={this.state.results} />
+              ) : (
+                <p
+                  style={{
+                    borderRadius: '10px',
+                    color: '#fff',
+                    fontSize: '2rem',
+                    background: 'rgba(11, 8, 155, 0.8)',
+                    padding: '20px',
+                  }}
+                >
+                  No results for such a term
+                </p>
               )}
             </div>
           </Main>
