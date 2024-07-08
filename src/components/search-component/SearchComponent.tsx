@@ -1,4 +1,4 @@
-import { Component, ChangeEvent, MouseEvent } from 'react';
+import { Component, ChangeEvent, MouseEvent, FormEvent } from 'react';
 import styles from './searchComponent.module.css';
 
 type Props = {
@@ -26,13 +26,13 @@ class SearchComponent extends Component<Props, State> {
     this.props.onSearch(this.state.searchTerm.trim());
   };
 
-  formHandler = (event: MouseEvent<HTMLFormElement>) => {
+  formHandler = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
   };
 
   render() {
     return (
-      <form className={styles.searchForm} onClick={this.formHandler}>
+      <form className={styles.searchForm} onSubmit={this.formHandler}>
         <fieldset className={styles.searchWrapper}>
           <label className={styles.searchLabel} htmlFor="searchField">
             <span className={styles.glassImg} />
