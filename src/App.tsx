@@ -81,12 +81,7 @@ class App extends Component {
           </div>
           <Main>
             <div className={styles.bottomWrapper}>
-              {this.state.loading && <p>Loading...</p>}
-              {this.state.error ? (
-                <div>Something went wrong. Please try again later.</div>
-              ) : this.state.results.length > 0 ? (
-                <ResultsComponent results={this.state.results} />
-              ) : (
+              {this.state.loading && (
                 <p
                   style={{
                     borderRadius: '10px',
@@ -96,8 +91,13 @@ class App extends Component {
                     padding: '20px',
                   }}
                 >
-                  No results for such a term
+                  Loading...
                 </p>
+              )}
+              {this.state.error ? (
+                <div>Something went wrong. Please try again later.</div>
+              ) : (
+                <ResultsComponent results={this.state.results} />
               )}
             </div>
           </Main>
