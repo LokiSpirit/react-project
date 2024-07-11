@@ -1,4 +1,5 @@
 import { Component } from 'react';
+import { ScrollRestoration } from 'react-router-dom';
 import SearchComponent from './components/search-component/SearchComponent.tsx';
 import ResultsComponent from './components/result-component/ResultsComponent.tsx';
 import ErrorBoundary from './components/error-boundary/ErrorBoundary.tsx';
@@ -102,6 +103,11 @@ class App extends Component {
             </div>
           </Main>
         </div>
+        <ScrollRestoration
+          getKey={(location) => {
+            return location.pathname;
+          }}
+        />
       </ErrorBoundary>
     );
   }
