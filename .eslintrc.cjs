@@ -20,32 +20,6 @@ module.exports = {
     'react/react-in-jsx-scope': 'off',
     'react-hooks/rules-of-hooks': 'off',
     'react-hooks/exhaustive-deps': 'off',
-    'no-restricted-imports': [
-      'error',
-      {
-        paths: [
-          {
-            name: 'react',
-            importNames: [
-              'useState',
-              'useEffect',
-              'useContext',
-              'useReducer',
-              'useCallback',
-              'useMemo',
-              'useRef',
-              'useLayoutEffect',
-              'useDebugValue',
-              'useImperativeHandle',
-              'useTransition',
-              'useDeferredValue',
-              'useId',
-            ],
-            message: 'Hooks are not allowed',
-          },
-        ],
-      },
-    ],
     '@typescript-eslint/ban-ts-comment': [
       'error',
       {

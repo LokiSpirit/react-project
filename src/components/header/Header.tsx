@@ -1,17 +1,15 @@
-import { Component, ReactNode } from 'react';
 import styles from './header.module.css';
 
-interface Props {
-  children: ReactNode;
-}
-class Header extends Component<Props> {
-  constructor(props: Props) {
-    super(props);
-  }
+type Props = {
+  children: React.ReactNode;
+};
 
-  render() {
-    return <div className={styles.header}>{this.props.children}</div>;
-  }
-}
+const Header: React.FC<Props> = ({ children }) => {
+  return (
+    <header className={styles.header}>
+      <div className={styles.topWrapper}>{children}</div>
+    </header>
+  );
+};
 
 export default Header;

@@ -1,4 +1,4 @@
-import { Component } from 'react';
+/* import { Component } from 'react';
 import { ScrollRestoration } from 'react-router-dom';
 import SearchComponent from './components/search-component/SearchComponent.tsx';
 import ResultsComponent from './components/result-component/ResultsComponent.tsx';
@@ -112,5 +112,97 @@ class App extends Component {
     );
   }
 }
+
+export default App; */
+
+import React, { useEffect, useState } from 'react';
+import { Route, Routes } from 'react-router-dom';
+import SearchComponent from './components/search-component/SearchComponent';
+import ResultsComponent from './components/result-component/ResultsComponent';
+import ErrorBoundary from './components/error-boundary/ErrorBoundary';
+import ThrowButton from './components/throw-button/ThrowButton';
+import NotFound from './pages/not-found/NotFound';
+import styles from './App.module.css';
+import useLocalStorage from './hooks/SaveTermToLS';
+import Header from './components/header/Header';
+import Layout from './components/Layout';
+
+type Result = {
+  [key: string]: string | number | string[];
+};
+
+const App: React.FC = () => {
+  const [searchTerm, setSearchTerm] = useLocalStorage('searchTerm', '');
+  const [results, setResults] = useState<Result[]>([]);
+  const [loading, setLoading] = useState<boolean>(false);
+  const [error, setError] = useState<boolean>(false);
+
+  const endpoints: string[] = ['films', 'people', 'planets', 'species', 'starships', 'vehicles'];
+
+  useEffect(() => {
+    fetchData(searchTerm);
+  }, [searchTerm]);
+
+  const fetchData = (searchTerm: string) => {
+    const term = searchTerm.trim();
+    const url = 'https://swapi.dev/api/';
+    const query = term ? `?search=${term}&page=1` : '';
+    const values: Result[] = [];
+
+    setLoading(true);
+    setError(false);
+
+    Promise.allSettled(
+      endpoints.map((endpoint) =>
+        fetch(url + `${endpoint}/${query}`)
+          .then((response) => response.json())
+          .catch((error) => {
+            throw error;
+          }),
+      ),
+    )
+      .then((results) => {
+        results.forEach((result) => {
+          if (result.status === 'fulfilled' && result.value && result.value.results) {
+            values.push(...result.value.results);
+          }
+        });
+        setResults(values);
+        setLoading(false);
+      })
+      .catch(() => {
+        setError(true);
+        setLoading(false);
+      });
+  };
+
+  const handleSearch = (term: string) => {
+    if (searchTerm !== term) {
+      setSearchTerm(term);
+    }
+  };
+
+  return (
+    <div className={styles.container}>
+      <ErrorBoundary>
+        <Header>
+          <SearchComponent searchTerm={searchTerm} onSearch={handleSearch} />
+          <ThrowButton>Throw Error</ThrowButton>
+        </Header>
+        {loading && <p className={styles.loading}>Loading...</p>}
+        {error ? (
+          <div>Something went wrong. Please try again later.</div>
+        ) : (
+          <Routes>
+            <Route path="/" element={<Layout />}>
+              <Route index element={<ResultsComponent results={results} />} />
+              <Route path="*" element={<NotFound />} />
+            </Route>
+          </Routes>
+        )}
+      </ErrorBoundary>
+    </div>
+  );
+};
 
 export default App;

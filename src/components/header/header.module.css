@@ -2,3 +2,13 @@
   height: 10vh;
   min-height: 200px;
 }
+
+.topWrapper {
+  display: flex;
+  justify-content: center;
+  background-color: rgba(72, 127, 126, 0.5);
+  align-items: baseline;
+  margin: 0 auto;
+  width: 100%;
+  padding: 10px 20px;
+}
