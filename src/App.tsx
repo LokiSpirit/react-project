@@ -114,7 +114,7 @@ const App: React.FC = () => {
                         onItemClick={handleItemClick}
                       />
                       {selectedItemId && (
-                        <div className={styles.rightSection}>
+                        <div className={styles.rightSection} onClick={handleCloseDetails}>
                           <button className="button" type="button" onClick={handleCloseDetails}>
                             Close
                           </button>
