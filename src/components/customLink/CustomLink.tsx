@@ -4,11 +4,12 @@ import { ReactNode } from 'react';
 
 type CustomLinkProps = {
   children: ReactNode;
-  name: string;
+  id: string;
   to: string;
+  changeSearchCategory: (event: React.MouseEvent<HTMLAnchorElement>) => void;
 };
 
-const CustomLink = ({ children, name, to, ...props }: CustomLinkProps) => {
+const CustomLink = ({ children, id, to, changeSearchCategory, ...props }: CustomLinkProps) => {
   const match = useMatch({
     path: to,
     end: to.length === 1,
@@ -16,7 +17,8 @@ const CustomLink = ({ children, name, to, ...props }: CustomLinkProps) => {
 
   return (
     <Link
-      id={name}
+      id={id}
+      onClick={changeSearchCategory}
       className={styles.navLink}
       to={to}
       style={{

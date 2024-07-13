@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import { Route, Routes } from 'react-router-dom';
+import { Route, Routes, useNavigate, useLocation } from 'react-router-dom';
 import SearchComponent from './components/search-component/SearchComponent';
 import ResultsComponent from './components/result-component/ResultsComponent';
+import DetailComponent from './components/detail-component/DetailComponent'; // Assume you have this component
 import ErrorBoundary from './components/error-boundary/ErrorBoundary';
 import ThrowButton from './components/throw-button/ThrowButton';
 import NotFound from './pages/not-found/NotFound';
@@ -9,11 +10,15 @@ import styles from './App.module.css';
 import useLocalStorage from './hooks/SaveTermToLS';
 import Header from './components/header/Header';
 import Navigation from './components/header-navigation/Navigation';
+import Layout from './components/Layout';
+import { useUrlContext } from './hooks/useUrlContext';
 
 type Result = {
   [key: string]: string | number | string[];
 };
+
 const endpoints: string[] = ['films', 'people', 'planets', 'species', 'starships', 'vehicles'];
+
 const App: React.FC = () => {
   const [pageName, setPageName] = useState('films');
   const [searchTerm, setSearchTerm] = useLocalStorage('searchTerm', '');
@@ -22,35 +27,13 @@ const App: React.FC = () => {
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<boolean>(false);
   const [page, setPage] = useState(1);
+  const { selectedItemId, setSelectedItemId } = useUrlContext();
+  const navigate = useNavigate();
+  const location = useLocation();
 
   useEffect(() => {
     fetchData(searchTerm);
   }, [searchTerm, page, pageName]);
-
-  /*   const fetchData = (searchTerm: string) => {
-    const term = searchTerm.trim();
-    const url = 'https://swapi.dev/api/';
-    const query = term ? `search=${term}` : '';
-
-    setLoading(true);
-    setError(false);
-
-    Promise.resolve()
-      .then(() => fetch(url + `${pageName}/?page=${page}` + (query ? `&${query}` : '')))
-      .then((response) => response.json())
-      .catch((error) => {
-        throw error;
-      })
-      .then((result) => {
-        setTotal(result.value.count);
-        setResults(result.results);
-        setLoading(false);
-      })
-      .catch(() => {
-        setError(true);
-        setLoading(false);
-      });
-  }; */
 
   const fetchData = async (searchTerm: string) => {
     const term = searchTerm.trim();
@@ -66,9 +49,9 @@ const App: React.FC = () => {
         throw new Error('Network response was not ok');
       }
       const result = await response.json();
-      console.log(result);
       setTotal(result.count);
       setResults(result.results);
+      navigate(`/${pageName}?page=${page}`, { replace: true });
     } catch (error) {
       setError(true);
     } finally {
@@ -81,6 +64,26 @@ const App: React.FC = () => {
       setSearchTerm(term);
     }
   };
+
+  const handleItemClick = (itemId: string) => {
+    setSelectedItemId(itemId);
+    navigate(`/${pageName}?page=${page}&details=${itemId}`, { replace: true });
+  };
+
+  const handleCloseDetails = () => {
+    setSelectedItemId(null);
+    navigate(`/${pageName}?page=${page}`, { replace: true });
+  };
+
+  useEffect(() => {
+    const searchParams = new URLSearchParams(location.search);
+    const details = searchParams.get('details');
+    if (details) {
+      setSelectedItemId(details);
+    } else {
+      setSelectedItemId(null);
+    }
+  }, [location.search]);
 
   return (
     <div className={styles.container}>
@@ -95,13 +98,35 @@ const App: React.FC = () => {
           <div>Something went wrong. Please try again later.</div>
         ) : (
           <Routes>
-            <Route
-              path="/:name"
-              element={
-                <ResultsComponent results={results} page={page} total={total} setPage={setPage} pageName={pageName} />
-              }
-            />
-            <Route path="*" element={<NotFound />} />
+            <Route path="/" element={<Layout />}>
+              {endpoints.map((endpoint) => (
+                <Route
+                  key={endpoint}
+                  path={`${endpoint}`}
+                  element={
+                    <div className={styles.pageContent}>
+                      <ResultsComponent
+                        results={results}
+                        page={page}
+                        total={total}
+                        setPage={setPage}
+                        pageName={pageName}
+                        onItemClick={handleItemClick}
+                      />
+                      {selectedItemId && (
+                        <div className={styles.rightSection}>
+                          <button className="button" type="button" onClick={handleCloseDetails}>
+                            Close
+                          </button>
+                          <DetailComponent />
+                        </div>
+                      )}
+                    </div>
+                  }
+                />
+              ))}
+              <Route path="*" element={<NotFound />} />
+            </Route>
           </Routes>
         )}
       </ErrorBoundary>

@@ -18,7 +18,7 @@ const Navigation = ({ setPageName, endpoints, setPage }: NavigationProps) => {
   return (
     <div className={styles.headerNavigation}>
       {endpoints.map((endpoint) => (
-        <CustomLink key={endpoint} id={endpoint} to={`/${endpoint}`} onClick={changeSearchCategory}>
+        <CustomLink key={endpoint} id={endpoint} to={`/${endpoint}`} changeSearchCategory={changeSearchCategory}>
           {endpoint.toUpperCase()}
         </CustomLink>
       ))}

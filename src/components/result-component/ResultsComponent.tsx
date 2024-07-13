@@ -1,8 +1,7 @@
-// src/components/result-component/ResultsComponent.tsx
-import React, { useEffect } from 'react';
+import React from 'react';
 import Pagination from '../pagination/Pagination';
 import styles from './resultComponent.module.css';
-import { useNavigate } from 'react-router-dom';
+import { useUrlContext } from '../../hooks/useUrlContext';
 
 type Result = {
   [key: string]: string | number | string[];
@@ -13,25 +12,39 @@ type ResultsComponentProps = {
   page: number;
   total: number;
   setPage: (page: number) => void;
+  pageName: string;
+  onItemClick: (itemId: string) => void;
 };
 
 const itemsPerPage = 10;
 const maxLength = 7;
 
-const ResultsComponent: React.FC<ResultsComponentProps> = ({ results, page, total, setPage, pageName }) => {
+const ResultsComponent: React.FC<ResultsComponentProps> = ({
+  results,
+  page,
+  total,
+  setPage,
+  pageName,
+  onItemClick,
+}) => {
+  const { setSelectedUrl } = useUrlContext();
   const totalPages = Math.ceil(total / itemsPerPage);
-  console.log(page, total, totalPages);
-  const navigate = useNavigate();
-  useEffect(() => {
-    navigate(`/${pageName}?page=${page}`);
-  }, []);
+
+  const handleClick = (id: string, url: string) => {
+    onItemClick(id);
+    setSelectedUrl(url);
+  };
 
   return (
     <div>
       {results.map((result, index) => (
-        <div className={styles.card} key={index}>
+        <div
+          className={styles.card}
+          key={index}
+          onClick={() => handleClick(String(result.url).split('/').slice(-2, -1)[0], String(result.url))}
+        >
           <h3 className={styles.title}>{result.name || result.title}</h3>
-          <div>
+          {/* <div>
             {Object.entries(result)
               .slice(1)
               .map(([key, value]) => (
@@ -40,7 +53,7 @@ const ResultsComponent: React.FC<ResultsComponentProps> = ({ results, page, tota
                   <span>{typeof value === 'string' ? value : Array.isArray(value) ? value.join(', ') : value}</span>
                 </div>
               ))}
-          </div>
+          </div> */}
         </div>
       ))}
       <Pagination

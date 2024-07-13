@@ -34,9 +34,16 @@
 }
 
 .loading {
-  border-radius: '10px';
-  color: '#fff';
+  border-radius: 10px;
+  color: #fff;
   font-size: 2rem;
   background: rgba(11, 8, 155, 0.8);
   padding: 20px;
 }
+
+.pageContent {
+  display: flex;
+  justify-content: start;
+}
+
+.rightSection {}
