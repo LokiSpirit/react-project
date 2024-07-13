@@ -12,6 +12,7 @@ import Header from './components/header/Header';
 import Navigation from './components/header-navigation/Navigation';
 import Layout from './components/Layout';
 import { useUrlContext } from './hooks/useUrlContext';
+import cn from 'classnames';
 
 type Result = {
   [key: string]: string | number | string[];
@@ -115,7 +116,7 @@ const App: React.FC = () => {
                       />
                       {selectedItemId && (
                         <div className={styles.rightSection} onClick={handleCloseDetails}>
-                          <button className="button" type="button" onClick={handleCloseDetails}>
+                          <button className={cn(styles.closeBtn, 'button')} type="button" onClick={handleCloseDetails}>
                             Close
                           </button>
                           <DetailComponent />

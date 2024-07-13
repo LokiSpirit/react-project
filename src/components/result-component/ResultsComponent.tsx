@@ -36,7 +36,7 @@ const ResultsComponent: React.FC<ResultsComponentProps> = ({
   };
 
   return (
-    <div>
+    <div className={styles.cardsContainer}>
       {results.map((result, index) => (
         <div
           className={styles.card}
