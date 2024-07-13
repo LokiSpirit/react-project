@@ -1,12 +1,17 @@
 import React, { useEffect, useState } from 'react';
 import { useUrlContext } from '../../hooks/useUrlContext';
 import styles from './detailComponent.module.css';
+import cn from 'classnames';
 
 type Result = {
   [key: string]: string | number | string[];
 };
 
-const DetailComponent: React.FC<Result> = () => {
+type DetailComponentProps = {
+  handleCloseDetails: () => void;
+};
+
+const DetailComponent: React.FC<DetailComponentProps> = ({ handleCloseDetails }: DetailComponentProps) => {
   const [itemDetails, setItemDetails] = useState<Result | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const { selectedUrl, selectedItemId } = useUrlContext();
@@ -40,17 +45,22 @@ const DetailComponent: React.FC<Result> = () => {
   }
 
   return (
-    <div className={styles.detailContainer}>
-      <h2>{itemDetails.title || itemDetails.name}</h2>
-      <div>
-        {Object.entries(itemDetails).map(([key, value]) => (
-          <div key={key}>
-            <span style={{ fontWeight: 'bold', marginRight: '5px' }}>{key}:</span>
-            <span>{typeof value === 'string' ? value : Array.isArray(value) ? value.join(', ') : value}</span>
-          </div>
-        ))}
+    <>
+      <button className={cn(styles.closeBtn, 'button')} type="button" onClick={handleCloseDetails}>
+        Close
+      </button>
+      <div className={styles.detailContainer}>
+        <h2>{itemDetails.title || itemDetails.name}</h2>
+        <div>
+          {Object.entries(itemDetails).map(([key, value]) => (
+            <div key={key}>
+              <span style={{ fontWeight: 'bold', marginRight: '5px' }}>{key}:</span>
+              <span>{typeof value === 'string' ? value : Array.isArray(value) ? value.join(', ') : value}</span>
+            </div>
+          ))}
+        </div>
       </div>
-    </div>
+    </>
   );
 };
 

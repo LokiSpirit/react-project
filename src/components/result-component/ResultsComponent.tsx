@@ -44,25 +44,17 @@ const ResultsComponent: React.FC<ResultsComponentProps> = ({
           onClick={() => handleClick(String(result.url).split('/').slice(-2, -1)[0], String(result.url))}
         >
           <h3 className={styles.title}>{result.name || result.title}</h3>
-          {/* <div>
-            {Object.entries(result)
-              .slice(1)
-              .map(([key, value]) => (
-                <div key={key} className={styles.row}>
-                  <span style={{ fontWeight: 'bold', marginRight: '5px' }}>{key}:</span>
-                  <span>{typeof value === 'string' ? value : Array.isArray(value) ? value.join(', ') : value}</span>
-                </div>
-              ))}
-          </div> */}
         </div>
       ))}
-      <Pagination
-        currentPage={page}
-        lastPage={totalPages}
-        maxLength={maxLength}
-        setPage={setPage}
-        pageName={pageName}
-      />
+      {results.length > 0 && total > 0 && (
+        <Pagination
+          currentPage={page}
+          lastPage={totalPages}
+          maxLength={maxLength}
+          setPage={setPage}
+          pageName={pageName}
+        />
+      )}
     </div>
   );
 };

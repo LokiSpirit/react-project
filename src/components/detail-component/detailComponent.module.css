@@ -14,3 +14,7 @@
   padding: 20px;
   overflow: auto;
 }
+
+.closeBtn {
+  margin-bottom: 20px;
+}

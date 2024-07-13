@@ -12,7 +12,6 @@ import Header from './components/header/Header';
 import Navigation from './components/header-navigation/Navigation';
 import Layout from './components/Layout';
 import { useUrlContext } from './hooks/useUrlContext';
-import cn from 'classnames';
 
 type Result = {
   [key: string]: string | number | string[];
@@ -94,8 +93,9 @@ const App: React.FC = () => {
           <ThrowButton>Throw Error</ThrowButton>
           <Navigation setPageName={setPageName} endpoints={endpoints} setPage={setPage} />
         </Header>
-        {loading && <p className={styles.loading}>Loading...</p>}
-        {error ? (
+        {loading ? (
+          <p className={styles.loading}>Loading...</p>
+        ) : error ? (
           <div>Something went wrong. Please try again later.</div>
         ) : (
           <Routes>
@@ -116,10 +116,7 @@ const App: React.FC = () => {
                       />
                       {selectedItemId && (
                         <div className={styles.rightSection} onClick={handleCloseDetails}>
-                          <button className={cn(styles.closeBtn, 'button')} type="button" onClick={handleCloseDetails}>
-                            Close
-                          </button>
-                          <DetailComponent />
+                          <DetailComponent handleCloseDetails={handleCloseDetails} />
                         </div>
                       )}
                     </div>
