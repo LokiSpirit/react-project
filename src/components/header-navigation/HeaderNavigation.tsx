@@ -7,7 +7,7 @@ type NavigationProps = {
   setPage: (page: number) => void;
 };
 
-const Navigation = ({ setPageName, endpoints, setPage }: NavigationProps) => {
+const HeaderNavigation = ({ setPageName, endpoints, setPage }: NavigationProps) => {
   const changeSearchCategory = (event: React.MouseEvent<HTMLAnchorElement>) => {
     const targetName = event.currentTarget.getAttribute('id');
     if (targetName) {
@@ -26,4 +26,4 @@ const Navigation = ({ setPageName, endpoints, setPage }: NavigationProps) => {
   );
 };
 
-export default Navigation;
+export default HeaderNavigation;

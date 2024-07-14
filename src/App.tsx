@@ -9,7 +9,7 @@ import NotFound from './pages/not-found/NotFound';
 import styles from './App.module.css';
 import useLocalStorage from './hooks/SaveTermToLS';
 import Header from './components/header/Header';
-import Navigation from './components/header-navigation/Navigation';
+import HeaderNavigation from './components/header-navigation/HeaderNavigation';
 import Layout from './components/Layout';
 import { useUrlContext } from './hooks/useUrlContext';
 
@@ -91,7 +91,7 @@ const App: React.FC = () => {
         <Header>
           <SearchComponent searchTerm={searchTerm} onSearch={handleSearch} />
           <ThrowButton>Throw Error</ThrowButton>
-          <Navigation setPageName={setPageName} endpoints={endpoints} setPage={setPage} />
+          <HeaderNavigation setPageName={setPageName} endpoints={endpoints} setPage={setPage} />
         </Header>
         {loading ? (
           <p className={styles.loading}>Loading...</p>

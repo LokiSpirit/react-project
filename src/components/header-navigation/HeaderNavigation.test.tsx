@@ -1,6 +1,5 @@
 import { render, screen, fireEvent } from '@testing-library/react';
-import '@testing-library/jest-dom';
-import Navigation from './Navigation';
+import HeaderNavigation from './HeaderNavigation';
 import { describe, it, expect, vi } from 'vitest';
 import { BrowserRouter } from 'react-router-dom';
 import { CustomLinkProps } from '../customLink/CustomLink';
@@ -13,7 +12,7 @@ vi.mock('../customLink/CustomLink', () => ({
   ),
 }));
 
-describe('Navigation', () => {
+describe('HeaderNavigation', () => {
   const mockSetPageName = vi.fn();
   const mockSetPage = vi.fn();
   const endpoints = ['films', 'people', 'planets', 'species', 'starships', 'vehicles'];
@@ -26,7 +25,7 @@ describe('Navigation', () => {
   it('renders all navigation links', () => {
     render(
       <BrowserRouter>
-        <Navigation setPageName={mockSetPageName} endpoints={endpoints} setPage={mockSetPage} />
+        <HeaderNavigation setPageName={mockSetPageName} endpoints={endpoints} setPage={mockSetPage} />
       </BrowserRouter>,
     );
 
@@ -38,7 +37,7 @@ describe('Navigation', () => {
   it('calls setPageName and setPage when a link is clicked', () => {
     render(
       <BrowserRouter>
-        <Navigation setPageName={mockSetPageName} endpoints={endpoints} setPage={mockSetPage} />
+        <HeaderNavigation setPageName={mockSetPageName} endpoints={endpoints} setPage={mockSetPage} />
       </BrowserRouter>,
     );
 
@@ -52,7 +51,7 @@ describe('Navigation', () => {
   it('calls setPageName and setPage when another link is clicked', () => {
     render(
       <BrowserRouter>
-        <Navigation setPageName={mockSetPageName} endpoints={endpoints} setPage={mockSetPage} />
+        <HeaderNavigation setPageName={mockSetPageName} endpoints={endpoints} setPage={mockSetPage} />
       </BrowserRouter>,
     );
 
