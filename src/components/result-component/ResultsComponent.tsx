@@ -2,6 +2,7 @@ import React from 'react';
 import Pagination from '../pagination/Pagination';
 import styles from './resultComponent.module.css';
 import { useUrlContext } from '../../hooks/useUrlContext';
+import { Outlet } from 'react-router-dom';
 
 type Result = {
   [key: string]: string | number | string[];
@@ -36,25 +37,28 @@ const ResultsComponent: React.FC<ResultsComponentProps> = ({
   };
 
   return (
-    <div className={styles.cardsContainer}>
-      {results.map((result, index) => (
-        <div
-          className={styles.card}
-          key={index}
-          onClick={() => handleClick(String(result.url).split('/').slice(-2, -1)[0], String(result.url))}
-        >
-          <h3 className={styles.title}>{result.name || result.title}</h3>
-        </div>
-      ))}
-      {results.length > 0 && total > 0 && (
-        <Pagination
-          currentPage={page}
-          lastPage={totalPages}
-          maxLength={maxLength}
-          setPage={setPage}
-          pageName={pageName}
-        />
-      )}
+    <div className={styles.pageContent}>
+      <div className={styles.cardsContainer}>
+        {results.map((result, index) => (
+          <div
+            className={styles.card}
+            key={index}
+            onClick={() => handleClick(String(result.url).split('/').slice(-2, -1)[0], String(result.url))}
+          >
+            <h3 className={styles.title}>{result.name || result.title}</h3>
+          </div>
+        ))}
+        {results.length > 0 && total > 0 && (
+          <Pagination
+            currentPage={page}
+            lastPage={totalPages}
+            maxLength={maxLength}
+            setPage={setPage}
+            pageName={pageName}
+          />
+        )}
+      </div>
+      <Outlet />
     </div>
   );
 };

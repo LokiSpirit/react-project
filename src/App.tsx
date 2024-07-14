@@ -27,7 +27,7 @@ const App: React.FC = () => {
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<boolean>(false);
   const [page, setPage] = useState(1);
-  const { selectedItemId, setSelectedItemId } = useUrlContext();
+  const { setSelectedItemId } = useUrlContext();
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -67,7 +67,7 @@ const App: React.FC = () => {
 
   const handleItemClick = (itemId: string) => {
     setSelectedItemId(itemId);
-    navigate(`/${pageName}?page=${page}&details=${itemId}`, { replace: true });
+    navigate(`/${pageName}/${itemId}/?page=${page}&details=${itemId}`, { replace: true });
   };
 
   const handleCloseDetails = () => {
@@ -105,26 +105,28 @@ const App: React.FC = () => {
                   key={endpoint}
                   path={`${endpoint}`}
                   element={
-                    <div className={styles.pageContent}>
-                      <ResultsComponent
-                        results={results}
-                        page={page}
-                        total={total}
-                        setPage={setPage}
-                        pageName={pageName}
-                        onItemClick={handleItemClick}
-                      />
-                      {selectedItemId && (
-                        <div className={styles.rightSection} onClick={handleCloseDetails}>
-                          <DetailComponent handleCloseDetails={handleCloseDetails} />
-                        </div>
-                      )}
-                    </div>
+                    <ResultsComponent
+                      results={results}
+                      page={page}
+                      total={total}
+                      setPage={setPage}
+                      pageName={pageName}
+                      onItemClick={handleItemClick}
+                    />
                   }
-                />
+                >
+                  <Route
+                    path=":id"
+                    element={
+                      <div className={styles.rightSection} onClick={handleCloseDetails}>
+                        <DetailComponent handleCloseDetails={handleCloseDetails} />
+                      </div>
+                    }
+                  />
+                </Route>
               ))}
-              <Route path="*" element={<NotFound />} />
             </Route>
+            <Route path="*" element={<NotFound />} />
           </Routes>
         )}
       </ErrorBoundary>
