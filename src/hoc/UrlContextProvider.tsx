@@ -1,6 +1,6 @@
 import React, { createContext, useState, ReactNode } from 'react';
 
-type UrlContextProps = {
+export type UrlContextProps = {
   selectedItemId: string | null;
   selectedUrl: string | null;
   setSelectedItemId: (id: string | null) => void;

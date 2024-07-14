@@ -1,7 +1,4 @@
-// src/components/pageLink/PageLink.test.tsx
-import React from 'react';
 import { render, screen } from '@testing-library/react';
-import '@testing-library/jest-dom';
 import PageLink, { Props } from './PageLink';
 import { describe, it, expect } from 'vitest';
 
