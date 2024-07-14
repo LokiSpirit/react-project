@@ -1,6 +1,6 @@
 .header {
-  height: 10vh;
-  min-height: 200px;
+  height: max-content;
+  margin-bottom: 40px;
 }
 
 .topWrapper {
