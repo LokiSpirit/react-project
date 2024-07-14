@@ -25,18 +25,12 @@ class ErrorBoundary extends Component<Props, State> {
     this.logErrorToServices(error.toString(), info.componentStack);
   }
 
-  refreshPage = () => {
-    history.go(0);
-  };
-
   render() {
     if (this.state.errorMessage) {
       return (
         <div className={styles.errorContainer}>
           <p>{this.state.errorMessage}</p>
-          <button className="button" onClick={this.refreshPage}>
-            Refresh Page
-          </button>
+          <p>Please refresh the page</p>
         </div>
       );
     }

@@ -1,4 +1,6 @@
 .errorContainer {
+  font-size: 2rem;
+  color: #fff;
   padding: 10px;
   height: 100vh;
   display: flex;

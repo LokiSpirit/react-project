@@ -4,11 +4,11 @@ import styles from './resultComponent.module.css';
 import { useUrlContext } from '../../hooks/useUrlContext';
 import { Outlet } from 'react-router-dom';
 
-type Result = {
+export type Result = {
   [key: string]: string | number | string[];
 };
 
-type ResultsComponentProps = {
+export type ResultsComponentProps = {
   results: Result[] | null;
   page: number;
   total: number;
