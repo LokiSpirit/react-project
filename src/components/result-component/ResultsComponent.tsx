@@ -34,6 +34,7 @@ const ResultsComponent: React.FC<ResultsComponentProps> = ({
   const handleClick = (id: string, url: string) => {
     onItemClick(id);
     setSelectedUrl(url);
+    window.scrollTo(0, 0);
   };
 
   return (
