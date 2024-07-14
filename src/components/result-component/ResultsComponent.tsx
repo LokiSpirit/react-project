@@ -9,7 +9,7 @@ type Result = {
 };
 
 type ResultsComponentProps = {
-  results: Result[];
+  results: Result[] | null;
   page: number;
   total: number;
   setPage: (page: number) => void;
@@ -36,6 +36,10 @@ const ResultsComponent: React.FC<ResultsComponentProps> = ({
     setSelectedUrl(url);
     window.scrollTo(0, 0);
   };
+
+  if (!results) {
+    return <div className={styles.notification}>No results found!</div>;
+  }
 
   return (
     <div className={styles.pageContent}>

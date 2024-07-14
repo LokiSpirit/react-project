@@ -22,7 +22,7 @@ const endpoints: string[] = ['films', 'people', 'planets', 'species', 'starships
 const App: React.FC = () => {
   const [pageName, setPageName] = useState('films');
   const [searchTerm, setSearchTerm] = useLocalStorage('searchTerm', '');
-  const [results, setResults] = useState<Result[]>([]);
+  const [results, setResults] = useState<Result[] | null>(null);
   const [total, setTotal] = useState<number>(0);
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<boolean>(false);
@@ -50,7 +50,7 @@ const App: React.FC = () => {
       }
       const result = await response.json();
       setTotal(result.count);
-      setResults(result.results);
+      setResults(result.results.length ? result.results : null);
       navigate(`/${pageName}?page=${page}`, { replace: true });
     } catch (error) {
       setError(true);
