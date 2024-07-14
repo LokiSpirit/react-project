@@ -23,7 +23,7 @@ const SearchComponent: React.FC<Props> = ({ searchTerm, onSearch }) => {
   };
 
   return (
-    <form className={styles.searchForm} onSubmit={formHandler}>
+    <form role="form" className={styles.searchForm} onSubmit={formHandler}>
       <fieldset className={styles.searchWrapper}>
         <label className={styles.searchLabel} htmlFor="searchField">
           <span className={styles.glassImg} />

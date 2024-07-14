@@ -2,7 +2,7 @@ import { Link, useMatch } from 'react-router-dom';
 import styles from './customLink.module.css';
 import { ReactNode } from 'react';
 
-type CustomLinkProps = {
+export type CustomLinkProps = {
   children: ReactNode;
   id: string;
   to: string;
