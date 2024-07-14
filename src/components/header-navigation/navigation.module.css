@@ -1,0 +1,14 @@
+.headerNavigation {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  padding: 10px;
+}
+
+.headerNavigation > * {
+  margin-right: 10px;
+}
+
+.headerNavigation:last-child {
+  margin-right: 0;
+}

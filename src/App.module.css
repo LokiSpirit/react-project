@@ -1,0 +1,54 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100vh;
+  max-height: 100vh;
+  margin: 0 auto;
+  overflow-y: auto;
+  background-image: url('/images/star-wars-characters.jpg');
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+.container::-webkit-scrollbar,
+.categoryWrapper::-webkit-scrollbar {
+  width: 10px;
+  background-color: rgb(2, 2, 62);
+}
+
+.container::-webkit-scrollbar-track,
+.categoryWrapper::-webkit-scrollbar-track {
+  border: 5px solid (255, 255, 255, 0.25);
+  box-shadow: inset 0 0 2.5px 2px (0, 0, 0, 0, 0.5);
+  background-clip: content-box;
+}
+
+.container::-webkit-scrollbar-thumb,
+.categoryWrapper::-webkit-scrollbar-thumb {
+  border-radius: 5px;
+  background: linear-gradient(to right, #fff, #0000ff);
+  cursor: pointer;
+}
+
+.loading {
+  border-radius: 10px;
+  color: #fff;
+  font-size: 2rem;
+  background: rgba(11, 8, 155, 0.8);
+  padding: 20px;
+  width: max-content;
+}
+
+.rightSection {
+  width: 50%;
+  display: inline-flex;
+  flex-direction: column;
+  justify-content: start;
+  align-items: flex-end;
+  cursor: pointer;
+  margin-right: 20px;
+  margin-left: 20px;
+  padding: 20px;
+}
