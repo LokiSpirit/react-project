@@ -1,21 +1,46 @@
+import React, { useEffect, useState } from 'react';
 import { useUrlContext } from '../../hooks/useUrlContext';
 import styles from './detailComponent.module.css';
 import cn from 'classnames';
-import { useFetchItemDetailsQuery } from '../../redux/slices/apiSlice';
+
+type Result = {
+  [key: string]: string | number | string[];
+};
 
 type DetailComponentProps = {
   handleCloseDetails: () => void;
 };
 
 const DetailComponent: React.FC<DetailComponentProps> = ({ handleCloseDetails }: DetailComponentProps) => {
-  const { selectedItemId } = useUrlContext();
-  const { data: itemDetails, error, isLoading } = useFetchItemDetailsQuery({ pageName: 'films', id: selectedItemId });
+  const [itemDetails, setItemDetails] = useState<Result | null>(null);
+  const [loading, setLoading] = useState<boolean>(true);
+  const { selectedUrl, selectedItemId } = useUrlContext();
 
-  if (isLoading) {
+  useEffect(() => {
+    const fetchItemDetails = async () => {
+      setLoading(true);
+      try {
+        const response = await fetch(String(selectedUrl));
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        const result: Result = await response.json();
+        setItemDetails(result);
+      } catch (error) {
+        console.error(error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchItemDetails();
+  }, [selectedItemId]);
+
+  if (loading) {
     return <p className={styles.loading}>Loading...</p>;
   }
 
-  if (error || !itemDetails) {
+  if (!itemDetails) {
     return <div>Unable to fetch details</div>;
   }
 
