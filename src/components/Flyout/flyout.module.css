@@ -1,28 +1,27 @@
 .flyout {
-    display: flex;
-    flex-wrap: wrap;
-    width: max-content;
-    margin: 20px auto 0;
-    min-width: 300px;
-    gap: 20px;
-    justify-content: center;
-    align-items: baseline;
-    padding: 10px 40px;
-    border-radius: 10px;
-    font-size: 1rem;
-
+  display: flex;
+  flex-wrap: wrap;
+  width: max-content;
+  margin: 20px auto 0;
+  min-width: 300px;
+  gap: 20px;
+  justify-content: center;
+  align-items: baseline;
+  padding: 10px 40px;
+  border-radius: 10px;
+  font-size: 1rem;
 }
 
 .flyout.dark {
-    background: rgb(3, 3, 53);
-    color: wheat;
+  background: rgb(3, 3, 53);
+  color: wheat;
 }
 
 .flyout.light {
-    background: rgb(156, 156, 203);
-    color: rgb(18, 17, 17);
+  background: rgb(156, 156, 203);
+  color: rgb(18, 17, 17);
 }
 
 .title {
-    margin-right: 40px;
+  margin-right: 40px;
 }

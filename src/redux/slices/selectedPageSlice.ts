@@ -2,7 +2,7 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 type SelectedPageState = {
   page: number;
-}
+};
 
 const initialState: SelectedPageState = {
   page: 1,
