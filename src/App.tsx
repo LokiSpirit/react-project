@@ -46,10 +46,10 @@ const App: React.FC = () => {
     }
   };
 
-  const handleItemClick = (itemId: string) => {
+  /* const handleItemClick = (itemId: string) => {
     setSelectedItemId(itemId);
     navigate(`/${pageName}/${itemId}/?page=${page}&details=${itemId}`, { replace: true });
-  };
+  }; */
 
   const handleCloseDetails = () => {
     setSelectedItemId(null);
@@ -93,7 +93,7 @@ const App: React.FC = () => {
                         total={data?.count}
                         setPage={setPage}
                         pageName={pageName}
-                        onItemClick={handleItemClick}
+                        selected={false}
                       />
                     }
                   >
