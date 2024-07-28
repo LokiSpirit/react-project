@@ -14,29 +14,24 @@ import useLocalStorage from './hooks/SaveTermToLS';
 import Header from './components/header/Header';
 import HeaderNavigation from './components/header-navigation/HeaderNavigation';
 import Layout from './components/Layout';
-import { useUrlContext } from './hooks/useUrlContext';
 import Flyout from './components/Flyout/Flyout';
-import { useAppSelector } from './redux/hooks';
+import { useAppDispatch, useAppSelector } from './redux/hooks';
 import { ThemeContext, ThemeContextProps } from './components/theme/ThemeContext';
 import CustomButton from './components/CustomButton/CustomButton';
+import { selectDetails } from './redux/slices/selectedDetailsSlice';
 
 const endpoints: string[] = ['films', 'people', 'planets', 'species', 'starships', 'vehicles'];
 
 const App: React.FC = () => {
   const [pageName, setPageName] = useState('films');
   const [searchTerm, setSearchTerm] = useLocalStorage('searchTerm', '');
-  const { setSelectedItemId } = useUrlContext();
   const navigate = useNavigate();
   const location = useLocation();
   const page = useAppSelector((state: RootState) => state.selectedPage.page);
+  const selectedId = useAppSelector((state: RootState) => state.selectedDetails.selectedId);
+  const dispatch = useAppDispatch();
   const { theme, toggleTheme } = useContext(ThemeContext) as ThemeContextProps;
   const { data, isLoading, isError }: FetchItemsResponse = useFetchItemsQuery({ pageName, searchTerm, page });
-
-  useEffect(() => {
-    if (data) {
-      navigate(`/${pageName}?page=${page}`, { replace: true });
-    }
-  }, [data, navigate, pageName, page]);
 
   const handleSearch = (term: string) => {
     if (searchTerm !== term) {
@@ -44,20 +39,28 @@ const App: React.FC = () => {
     }
   };
 
-  const handleCloseDetails = () => {
-    setSelectedItemId(null);
-    navigate(`/${pageName}?page=${page}`, { replace: true });
-  };
+  useEffect(() => {
+    if (selectedId) {
+      navigate(`/${pageName}/${selectedId}/?page=${page}&details=${selectedId}`, { replace: true });
+    } else {
+      navigate(`/${pageName}?page=${page}`, { replace: true });
+    }
+  }, [selectedId, data]);
 
   useEffect(() => {
-    const searchParams = new URLSearchParams(location.search);
-    const details = searchParams.get('details');
-    if (details) {
-      setSelectedItemId(details);
-    } else {
-      setSelectedItemId(null);
+    const path = location.pathname.split('/')[1];
+    console.log('path: ', path);
+    if (path && path !== pageName) {
+      const searchParams = new URLSearchParams(location.search);
+      const details = searchParams.get('details');
+      if (details && details !== selectedId) {
+        const id = details;
+        const url = `https://swapi.dev/api/${path}`;
+        dispatch(selectDetails({ id, url }));
+      }
+      setPageName(path);
     }
-  }, [location.search, setSelectedItemId]);
+  }, [location.search, location.pathname]);
 
   return (
     <Provider store={store}>
@@ -87,8 +90,8 @@ const App: React.FC = () => {
                     <Route
                       path=":id"
                       element={
-                        <div className={styles.rightSection} onClick={handleCloseDetails}>
-                          <DetailComponent handleCloseDetails={handleCloseDetails} />
+                        <div className={styles.rightSection}>
+                          <DetailComponent pageName={pageName} />
                         </div>
                       }
                     />

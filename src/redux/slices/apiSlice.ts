@@ -29,11 +29,19 @@ export interface FetchItemsResponse {
   isError: boolean;
 }
 
-interface FetchItemsQueryArgs {
+type FetchItemsQueryArgs = {
   pageName: string;
   searchTerm?: string;
   page: number;
-}
+};
+
+type fetchItemDetailsResponse = {
+  data: { results: Result };
+  isLoading: boolean;
+  isError: boolean;
+};
+
+type fetchItemDetailsQueryArgs = { pageName: string; selectedId: string }
 
 export const apiSlice = createApi({
   reducerPath: 'api',
@@ -44,10 +52,10 @@ export const apiSlice = createApi({
         return `${pageName}/?page=${page}&search=${searchTerm ? searchTerm : ''}`;
       },
     }),
-    fetchItemDetails: builder.query({
-      query: ({ endpoint, id }) => {
-        if (!endpoint || !id) throw new Error('No endpoint');
-        return `${endpoint}/${id}/`;
+    fetchItemDetails: builder.query<fetchItemDetailsResponse, fetchItemDetailsQueryArgs>({
+      query: ({ pageName, selectedId }) => {
+        if (!pageName || !selectedId) throw new Error('No endpoint');
+        return `${pageName}/${selectedId}/`;
       },
     }),
   }),

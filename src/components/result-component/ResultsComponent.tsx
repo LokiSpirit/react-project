@@ -6,6 +6,7 @@ import { useAppDispatch, useAppSelector } from '../../redux/hooks';
 import { RootState } from '../../redux/store';
 import { selectItem, unselectItem } from '../../redux/slices/selectedItemsSlice';
 import { ThemeContext, ThemeContextProps } from '../theme/ThemeContext';
+import { selectDetails } from '../../redux/slices/selectedDetailsSlice';
 export type Result = {
   [key: string]: string | number | string[];
 };
@@ -35,6 +36,11 @@ const ResultsComponent: React.FC<ResultsComponentProps> = ({ results, total, pag
 
   const totalPages = Math.ceil(total / itemsPerPage);
 
+  const handleClick = (id: string, url: string) => {
+    dispatch(selectDetails({ id, url }));
+    window.scrollTo(0, 0);
+  };
+
   if (!results) {
     return <div className={styles.notification}>No results found!</div>;
   }
@@ -44,7 +50,11 @@ const ResultsComponent: React.FC<ResultsComponentProps> = ({ results, total, pag
       <div className={styles.wrapper}>
         <div className={styles.cardsContainer}>
           {results.map((result, index) => (
-            <div className={`${styles.card} ${styles[theme]}`} key={index}>
+            <div
+              className={`${styles.card} ${styles[theme]}`}
+              key={index}
+              onClick={() => handleClick(String(result.url).split('/').slice(-2, -1)[0], String(result.url))}
+            >
               <input
                 type="checkbox"
                 checked={selectedItems.some((item) => item.id === String(result.url).split('/').slice(-2, -1)[0])}
