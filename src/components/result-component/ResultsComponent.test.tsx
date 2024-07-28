@@ -10,7 +10,7 @@ describe('ResultsComponent', () => {
     const results = [{ id: '1', name: 'Test Result' }];
     render(
       <Provider store={store}>
-        <ThemeContext.Provider value={{ theme: 'light' }}>
+        <ThemeContext.Provider value={{ theme: 'light', toggleTheme: () => {} }}>
           <ResultsComponent results={results} total={0} pageName={''} />
         </ThemeContext.Provider>
       </Provider>,

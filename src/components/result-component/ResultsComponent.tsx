@@ -44,7 +44,8 @@ const ResultsComponent: React.FC<ResultsComponentProps> = ({ results, total, pag
       window.scrollTo(0, 0);
     }
   };
-  if (!results) {
+
+  if (!results?.length) {
     return <div className={styles.notification}>No results found!</div>;
   }
 

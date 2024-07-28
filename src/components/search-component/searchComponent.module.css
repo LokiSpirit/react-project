@@ -44,11 +44,13 @@
 .searchField.dark {
   background-color: rgba(11, 8, 155, 0.3);
   border: 2px solid green;
+  color: #fff;
 }
 
 .searchField.light {
   background-color: #fff;
   border: 2px solid rgb(1, 27, 1);
+  color: #000;
 }
 
 .searchField:focus {
