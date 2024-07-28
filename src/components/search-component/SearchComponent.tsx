@@ -1,5 +1,8 @@
-import React, { useState, ChangeEvent, FormEvent } from 'react';
+import React, { useState, ChangeEvent, FormEvent, useContext } from 'react';
 import styles from './searchComponent.module.css';
+import { ThemeContext, ThemeContextProps } from '../theme/ThemeContext';
+import cn from 'classnames';
+import CustomButton from '../CustomButton/CustomButton';
 
 type Props = {
   searchTerm: string;
@@ -7,6 +10,8 @@ type Props = {
 };
 
 const SearchComponent: React.FC<Props> = ({ searchTerm, onSearch }) => {
+  const { theme } = useContext(ThemeContext) as ThemeContextProps;
+
   const [term, setTerm] = useState(searchTerm);
 
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
@@ -31,7 +36,7 @@ const SearchComponent: React.FC<Props> = ({ searchTerm, onSearch }) => {
             maxLength={100}
             autoComplete="off"
             placeholder="Search..."
-            className={styles.searchField}
+            className={cn(styles.searchField, styles[theme])}
             type="text"
             id="searchField"
             name="searchField"
@@ -39,9 +44,9 @@ const SearchComponent: React.FC<Props> = ({ searchTerm, onSearch }) => {
             onChange={handleChange}
           />
         </label>
-        <button className="button" type="button" onClick={handleSearch}>
+        <CustomButton onClick={handleSearch} type="button">
           Search
-        </button>
+        </CustomButton>
       </fieldset>
     </form>
   );

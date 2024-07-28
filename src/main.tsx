@@ -6,13 +6,16 @@ import { BrowserRouter } from 'react-router-dom';
 import { UrlContextProvider } from './hoc/UrlContextProvider';
 import { Provider } from 'react-redux';
 import { store } from './redux/store';
+import { ThemeProvider } from './components/theme/ThemeContext';
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
     <BrowserRouter>
       <Provider store={store}>
         <UrlContextProvider>
-          <App />
+          <ThemeProvider>
+            <App />
+          </ThemeProvider>
         </UrlContextProvider>
       </Provider>
     </BrowserRouter>

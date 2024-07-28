@@ -1,10 +1,9 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { Result } from '../../components/result-component/ResultsComponent';
 
 export interface Item {
   id: string;
-  detailsUrl: string;
-  name: string;
-  description?: string;
+  result: Result;
 }
 
 interface SelectedItemsState {

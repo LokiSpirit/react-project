@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import CustomButton from '../CustomButton/CustomButton';
 
 type ButtonProps = {
   children?: React.ReactNode;
@@ -15,9 +16,9 @@ const ThrowButton: React.FC<ButtonProps> = ({ children }) => {
 
   return (
     <div>
-      <button className="button" type="button" onClick={() => setError(true)}>
+      <CustomButton style={{ marginRight: '20px' }} type="button" onClick={() => setError(true)}>
         {children}
-      </button>
+      </CustomButton>
     </div>
   );
 };

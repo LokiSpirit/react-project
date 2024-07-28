@@ -10,6 +10,7 @@
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center;
+  align-items: center;
 }
 
 .container::-webkit-scrollbar,
@@ -34,11 +35,12 @@
 
 .loading {
   border-radius: 10px;
-  color: #fff;
   font-size: 2rem;
-  background: rgba(11, 8, 155, 0.8);
   padding: 20px;
   width: max-content;
+  background: rgba(11, 8, 155, 0.8);
+  color: #fff;
+  margin-left: 20px;
 }
 
 .rightSection {

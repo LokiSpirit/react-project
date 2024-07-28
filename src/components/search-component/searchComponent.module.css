@@ -17,7 +17,7 @@
 
 .glassImg {
   position: absolute;
-  top: 15px;
+  top: 10px;
   left: 10px;
   width: 20px;
   height: 20px;
@@ -38,11 +38,17 @@
   margin-right: 20px;
   font-weight: 700;
   font-size: 1rem;
-  color: white;
-
   border-style: inset;
-  border: 2px solid green;
+}
+
+.searchField.dark {
   background-color: rgba(11, 8, 155, 0.3);
+  border: 2px solid green;
+}
+
+.searchField.light {
+  background-color: #fff;
+  border: 2px solid rgb(1, 27, 1);
 }
 
 .searchField:focus {

@@ -6,9 +6,16 @@
 .topWrapper {
   display: flex;
   justify-content: space-between;
-  background-color: rgba(72, 127, 126, 0.5);
   align-items: baseline;
   margin: 0 auto;
   width: 100%;
   padding: 10px 20px;
+}
+
+.topWrapper.dark {
+  background-color: rgba(42, 12, 118, 0.5);
+}
+
+.topWrapper.light {
+  background-color: rgba(72, 127, 126, 0.5);
 }

@@ -3,44 +3,47 @@ import PageLink from './PageLink';
 import styles from './pagination.module.css';
 import { useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useAppDispatch, useAppSelector } from '../../redux/hooks';
+import { RootState } from '../../redux/store';
+import { selectPage } from '../../redux/slices/selectedPageSlice';
 
 export type Props = {
-  currentPage: number;
   lastPage: number;
   maxLength: number;
-  setPage: (page: number) => void;
   pageName: string;
 };
 
-const Pagination = ({ currentPage, lastPage, maxLength, setPage, pageName }: Props) => {
+const Pagination = ({ lastPage, maxLength, pageName }: Props) => {
   const navigate = useNavigate();
+  const dispatch = useAppDispatch();
+  const selectedPage = useAppSelector((state: RootState) => state.selectedPage.page);
 
   const clickHandler = useCallback(
     (pageNum: number) => {
-      setPage(pageNum);
+      dispatch(selectPage(pageNum));
       navigate(`/${pageName}/?page=${pageNum}`);
     },
-    [setPage, navigate],
+    [navigate],
   );
 
-  const pageNums = getPaginationItems(currentPage, lastPage, maxLength);
+  const pageNums = getPaginationItems(selectedPage, lastPage, maxLength);
 
   return (
     <nav className={styles.pagination} aria-label="Pagination">
-      <PageLink disabled={currentPage === 1} onClick={() => clickHandler(currentPage - 1)}>
+      <PageLink disabled={selectedPage === 1} onClick={() => clickHandler(selectedPage - 1)}>
         Previous
       </PageLink>
       {pageNums.map((pageNum, idx) => (
         <PageLink
           key={idx}
-          active={currentPage === pageNum}
+          active={selectedPage === pageNum}
           disabled={isNaN(pageNum)}
           onClick={() => clickHandler(pageNum)}
         >
           {!isNaN(pageNum) ? pageNum : '...'}
         </PageLink>
       ))}
-      <PageLink disabled={currentPage === lastPage} onClick={() => clickHandler(currentPage + 1)}>
+      <PageLink disabled={selectedPage === lastPage} onClick={() => clickHandler(selectedPage + 1)}>
         Next
       </PageLink>
     </nav>

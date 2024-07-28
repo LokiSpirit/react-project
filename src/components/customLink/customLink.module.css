@@ -3,9 +3,6 @@
   --color-active: #0f7dc6;
 }
 
-.navLink {
-}
-
 .active {
   color: var(--color-active);
   cursor: default;

@@ -1,9 +1,8 @@
-// App.tsx
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Route, Routes, useNavigate, useLocation } from 'react-router-dom';
-import { useFetchItemsQuery } from './redux/slices/apiSlice';
+import { FetchItemsResponse, useFetchItemsQuery } from './redux/slices/apiSlice';
 import { Provider } from 'react-redux';
-import { store } from './redux/store';
+import { RootState, store } from './redux/store';
 import SearchComponent from './components/search-component/SearchComponent';
 import ResultsComponent from './components/result-component/ResultsComponent';
 import DetailComponent from './components/detail-component/DetailComponent';
@@ -17,22 +16,21 @@ import HeaderNavigation from './components/header-navigation/HeaderNavigation';
 import Layout from './components/Layout';
 import { useUrlContext } from './hooks/useUrlContext';
 import Flyout from './components/Flyout/Flyout';
-
-/* type Result = {
-  [key: string]: string | number | string[];
-}; */
+import { useAppSelector } from './redux/hooks';
+import { ThemeContext, ThemeContextProps } from './components/theme/ThemeContext';
+import CustomButton from './components/CustomButton/CustomButton';
 
 const endpoints: string[] = ['films', 'people', 'planets', 'species', 'starships', 'vehicles'];
 
 const App: React.FC = () => {
   const [pageName, setPageName] = useState('films');
   const [searchTerm, setSearchTerm] = useLocalStorage('searchTerm', '');
-  const [page, setPage] = useState(1);
   const { setSelectedItemId } = useUrlContext();
   const navigate = useNavigate();
   const location = useLocation();
-
-  const { data, isLoading, isError } = useFetchItemsQuery({ pageName, searchTerm, page });
+  const page = useAppSelector((state: RootState) => state.selectedPage.page);
+  const { theme, toggleTheme } = useContext(ThemeContext) as ThemeContextProps;
+  const { data, isLoading, isError }: FetchItemsResponse = useFetchItemsQuery({ pageName, searchTerm, page });
 
   useEffect(() => {
     if (data) {
@@ -45,11 +43,6 @@ const App: React.FC = () => {
       setSearchTerm(term);
     }
   };
-
-  /* const handleItemClick = (itemId: string) => {
-    setSelectedItemId(itemId);
-    navigate(`/${pageName}/${itemId}/?page=${page}&details=${itemId}`, { replace: true });
-  }; */
 
   const handleCloseDetails = () => {
     setSelectedItemId(null);
@@ -68,17 +61,20 @@ const App: React.FC = () => {
 
   return (
     <Provider store={store}>
-      <div className={styles.container}>
+      <div className={`${styles.container} ${styles[theme]}`}>
         <ErrorBoundary>
           <Header>
             <SearchComponent searchTerm={searchTerm} onSearch={handleSearch} />
+            <HeaderNavigation setPageName={setPageName} endpoints={endpoints} />
             <ThrowButton>Throw Error</ThrowButton>
-            <HeaderNavigation setPageName={setPageName} endpoints={endpoints} setPage={setPage} />
+            <CustomButton onClick={toggleTheme} type="button">
+              {theme === 'light' ? 'Dark' : 'Light'}
+            </CustomButton>
           </Header>
           {isLoading ? (
             <p className={styles.loading}>Loading...</p>
           ) : isError ? (
-            <div>{'Error'}</div>
+            <div>{'Server side error'}</div>
           ) : (
             <Routes>
               <Route path="/" element={<Layout />}>
@@ -86,16 +82,7 @@ const App: React.FC = () => {
                   <Route
                     key={endpoint}
                     path={`${endpoint}`}
-                    element={
-                      <ResultsComponent
-                        results={data?.results}
-                        page={page}
-                        total={data?.count}
-                        setPage={setPage}
-                        pageName={pageName}
-                        selected={false}
-                      />
-                    }
+                    element={<ResultsComponent results={data.results} total={data.count} pageName={pageName} />}
                   >
                     <Route
                       path=":id"
@@ -111,8 +98,8 @@ const App: React.FC = () => {
               <Route path="*" element={<NotFound />} />
             </Routes>
           )}
+          <Flyout />
         </ErrorBoundary>
-        <Flyout />
       </div>
     </Provider>
   );

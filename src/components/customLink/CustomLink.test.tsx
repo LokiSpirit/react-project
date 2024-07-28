@@ -4,7 +4,6 @@ import { describe, it, expect, vi } from 'vitest';
 import { BrowserRouter, useMatch } from 'react-router-dom';
 import { CustomLink, CustomLinkProps } from './CustomLink';
 
-// Mock the useMatch hook
 vi.mock('react-router-dom', async () => {
   const actual = await vi.importActual<typeof import('react-router-dom')>('react-router-dom');
   return {

@@ -4,15 +4,13 @@ import styles from './navigation.module.css';
 type NavigationProps = {
   setPageName: (name: string) => void;
   endpoints: string[];
-  setPage: (page: number) => void;
 };
 
-const HeaderNavigation = ({ setPageName, endpoints, setPage }: NavigationProps) => {
+const HeaderNavigation = ({ setPageName, endpoints }: NavigationProps) => {
   const changeSearchCategory = (event: React.MouseEvent<HTMLAnchorElement>) => {
     const targetName = event.currentTarget.getAttribute('id');
     if (targetName) {
       setPageName(targetName);
-      setPage(1);
     }
   };
   return (
