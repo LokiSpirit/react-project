@@ -32,7 +32,7 @@ const DetailComponent: React.FC<DetailComponentProps> = ({ pageName }) => {
           {Object.entries(data).map(([key, value]) => (
             <div key={key}>
               <span style={{ fontWeight: 'bold', marginRight: '5px' }}>{key}:</span>
-              <span>{typeof value === 'string' ? value : Array.isArray(value) ? value.join(', ') : value}</span>
+              {!Array.isArray(value) && <span>{value}</span>}
             </div>
           ))}
         </div>

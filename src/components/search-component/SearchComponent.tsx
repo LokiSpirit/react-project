@@ -3,6 +3,8 @@ import styles from './searchComponent.module.css';
 import { ThemeContext, ThemeContextProps } from '../theme/ThemeContext';
 import cn from 'classnames';
 import CustomButton from '../CustomButton/CustomButton';
+import { useAppDispatch } from '../../redux/hooks';
+import { unselectAllItems } from '../../redux/slices/selectedItemsSlice';
 
 type Props = {
   searchTerm: string;
@@ -10,6 +12,7 @@ type Props = {
 };
 
 const SearchComponent: React.FC<Props> = ({ searchTerm, onSearch }) => {
+  const dispatch = useAppDispatch();
   const { theme } = useContext(ThemeContext) as ThemeContextProps;
 
   const [term, setTerm] = useState(searchTerm);
@@ -19,6 +22,7 @@ const SearchComponent: React.FC<Props> = ({ searchTerm, onSearch }) => {
   };
 
   const handleSearch = () => {
+    dispatch(unselectAllItems());
     onSearch(term.trim());
   };
 

@@ -24,6 +24,7 @@ const Flyout: React.FC = () => {
           if (Array.isArray(value)) {
             value = value.join(',');
           }
+          value = String(value).replace(/\r?\n/g, ' ');
           descriptionArr.push(`${key}:${value}`);
         });
         return descriptionArr.join(';');

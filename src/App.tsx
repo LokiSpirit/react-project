@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { Route, Routes, useNavigate, useLocation } from 'react-router-dom';
+import { Route, Routes, useNavigate } from 'react-router-dom';
 import { FetchItemsResponse, useFetchItemsQuery } from './redux/slices/apiSlice';
 import { Provider } from 'react-redux';
 import { RootState, store } from './redux/store';
@@ -14,11 +14,9 @@ import useLocalStorage from './hooks/SaveTermToLS';
 import Header from './components/header/Header';
 import HeaderNavigation from './components/header-navigation/HeaderNavigation';
 import Layout from './components/Layout';
-import Flyout from './components/Flyout/Flyout';
-import { useAppDispatch, useAppSelector } from './redux/hooks';
 import { ThemeContext, ThemeContextProps } from './components/theme/ThemeContext';
 import CustomButton from './components/CustomButton/CustomButton';
-import { selectDetails } from './redux/slices/selectedDetailsSlice';
+import { useAppSelector } from './redux/hooks';
 
 const endpoints: string[] = ['films', 'people', 'planets', 'species', 'starships', 'vehicles'];
 
@@ -26,10 +24,8 @@ const App: React.FC = () => {
   const [pageName, setPageName] = useState('films');
   const [searchTerm, setSearchTerm] = useLocalStorage('searchTerm', '');
   const navigate = useNavigate();
-  const location = useLocation();
   const page = useAppSelector((state: RootState) => state.selectedPage.page);
   const selectedId = useAppSelector((state: RootState) => state.selectedDetails.selectedId);
-  const dispatch = useAppDispatch();
   const { theme, toggleTheme } = useContext(ThemeContext) as ThemeContextProps;
   const { data, isLoading, isError }: FetchItemsResponse = useFetchItemsQuery({ pageName, searchTerm, page });
 
@@ -46,21 +42,6 @@ const App: React.FC = () => {
       navigate(`/${pageName}?page=${page}`, { replace: true });
     }
   }, [selectedId, data]);
-
-  useEffect(() => {
-    const path = location.pathname.split('/')[1];
-    console.log('path: ', path);
-    if (path && path !== pageName) {
-      const searchParams = new URLSearchParams(location.search);
-      const details = searchParams.get('details');
-      if (details && details !== selectedId) {
-        const id = details;
-        const url = `https://swapi.dev/api/${path}`;
-        dispatch(selectDetails({ id, url }));
-      }
-      setPageName(path);
-    }
-  }, [location.search, location.pathname]);
 
   return (
     <Provider store={store}>
@@ -101,7 +82,6 @@ const App: React.FC = () => {
               <Route path="*" element={<NotFound />} />
             </Routes>
           )}
-          <Flyout />
         </ErrorBoundary>
       </div>
     </Provider>

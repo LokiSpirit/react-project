@@ -44,7 +44,7 @@
 }
 
 .rightSection {
-  width: 50%;
+  width: 80%;
   display: inline-flex;
   flex-direction: column;
   justify-content: start;
