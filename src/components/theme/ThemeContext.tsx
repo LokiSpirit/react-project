@@ -7,7 +7,10 @@ export interface ThemeContextProps {
   toggleTheme: () => void;
 }
 
-export const ThemeContext = createContext<ThemeContextProps | undefined>(undefined);
+export const ThemeContext = createContext<ThemeContextProps>({
+  theme: 'light',
+  toggleTheme: () => {},
+});
 
 export const ThemeProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   const [theme, setTheme] = useState<Theme>('light');
