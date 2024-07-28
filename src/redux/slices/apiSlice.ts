@@ -41,7 +41,7 @@ type fetchItemDetailsResponse = {
   isError: boolean;
 };
 
-type fetchItemDetailsQueryArgs = { pageName: string; selectedId: string }
+type fetchItemDetailsQueryArgs = { pageName: string; selectedId: string };
 
 export const apiSlice = createApi({
   reducerPath: 'api',
