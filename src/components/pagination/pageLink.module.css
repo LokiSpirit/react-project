@@ -1,0 +1,89 @@
+.pageLink {
+  position: relative;
+  display: inline-flex;
+  border: 1px solid rgb(98, 80, 162);
+
+  padding: 10px 15px;
+
+  font-size: 1rem;
+  font-weight: 500;
+  text-decoration: none;
+  transition:
+    color 0.15s ease-in-out,
+    background-color 0.15s ease-in-out,
+    border-color 0.15s ease-in-out;
+  cursor: pointer;
+}
+
+.pageLink.dark {
+  background-image: linear-gradient(#07243a, #01111f);
+  color: fff;
+}
+
+.pageLink.light {
+  background-image: linear-gradient(#c6d6e2, #97c8f0);
+  color: #171717;
+}
+
+@media screen and (max-width: 600px) {
+  .pageLink {
+    padding: 5px 5px;
+    font-size: 0.8rem;
+  }
+}
+
+@media screen and (max-width: 400px) {
+  .pageLink {
+    padding: 5px 5px;
+    font-size: 0.7rem;
+  }
+}
+
+.pageLink:first-child {
+  border-top-left-radius: 5px;
+  border-bottom-left-radius: 5px;
+}
+
+.pageLink:last-child {
+  border-top-right-radius: 5px;
+  border-bottom-right-radius: 5px;
+}
+
+.pageLink:not(:first-child) {
+  margin-left: -1px;
+}
+
+.pageLink:hover,
+.pageLink:focus {
+  color: #0a58ca;
+  background-color: #e9ecef;
+}
+
+.pageLink:focus {
+  z-index: 3;
+}
+
+.pageLink.active {
+  z-index: 2;
+  color: #ffffff;
+  border-color: lightgreen;
+  background-image: linear-gradient(#199bff, #094576);
+
+  border-radius: 5px;
+  overflow: hidden;
+}
+
+.pageLink.dark.active {
+  background-image: linear-gradient(#07243a, #1e4d76);
+  color: fff;
+}
+
+.pageLink.light.active {
+  background-image: linear-gradient(#1d4b6f, #97c8f0);
+  color: #171717;
+}
+
+.pageLink.disabled {
+  color: darkslateblue;
+  pointer-events: none;
+}
